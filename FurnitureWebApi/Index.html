@@ -1,0 +1,56 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Furniture</title>
+</head>
+<body>
+    <div id="header">
+        <h2>Furniture</h2>
+    </div>
+    <div id="content">
+        <h2>Search by type</h2>
+        <select id="furnitureType">
+            <option>armchair</option>
+            <option>bookcase</option>
+            <option>nightstand</option>
+            <option>table</option>
+        </select>
+        <input type="button" id="seatchBtn" value="Search" />
+        <p id="field_info" />
+    </div>
+
+    <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript">
+        
+        
+        $("input#seatchBtn").on("click", function () {
+
+            var furnitureType = $('#furnitureType').val();
+
+            $.ajax({
+                url: '/api/' + furnitureType,
+                type: 'GET',
+                success: function (data) {
+                    console.log(data)
+                    WriteResponse(data, furnitureType);
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        });
+
+        function WriteResponse(furniture, furnitureType) {
+            var strResult;
+            $.each(furniture, function (i, field) {
+                strResult = strResult ? strResult + "<h2>" + i + ": " + field + "</h2>" : "<h2>" + i + ": " + field + "</h2>";
+            });
+            $("#field_info").html(strResult);
+            
+        }
+    </script>
+
+</body>
+</html>
+
+
